@@ -6,7 +6,7 @@ USE employee_tracker_schema;
 
 CREATE TABLE department (
   id INT NOT NULL AUTO_INCREMENT,
-  department VARCHAR(30) NULL,
+  name VARCHAR(30) NULL,
   PRIMARY KEY (id)
 );
 
@@ -25,7 +25,10 @@ CREATE TABLE employee (
   first_name VARCHAR(30) NOT NULL,
   last_name VARCHAR(30) NOT NULL,
   role_id INT,
+  manager_id INT,
   PRIMARY KEY (id),
+  -- FOREIGN KEY (manager_id)
+  --   REFERENCES employee(id),
   FOREIGN KEY (role_id)
-	REFERENCES role_info(id)
+	  REFERENCES role_info(id)
 );
