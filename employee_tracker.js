@@ -22,6 +22,7 @@ connection.connect((err) => {
   runAction();
 });
 
+//provides opening menu and handles the correspondence between choices and their functions
 const runAction = () => {
   console.log('WELCOME TO THE EMPLOYEE MANAGEMENT SYSTEM. PLEASE SELECT ONE OF THE OPTIONS BELOW:');
   inquirer
@@ -77,7 +78,9 @@ const runAction = () => {
     })
 };
 
+//add a new employee to the employee table
 const addEmployee = () => {
+  //used to get role_id
   const rolesQuery =
     'SELECT * from role_info';
 
@@ -94,6 +97,7 @@ const addEmployee = () => {
           name: 'addRole',
           type: 'list',
           message: 'Select employee role:',
+          //pulls its choices from role_info.title
           choices: function () {
             return res.map(role => role.title);
           }
@@ -101,18 +105,21 @@ const addEmployee = () => {
       ])
       .then(function (answers) {
         let roleId;
+        //finds the entry from the role_info table that matches the answer and gets its id
         for (i = 0; i < res.length; i++) {
           if (answers.addRole === res[i].title) {
             roleId = res[i].role_id
           }
         }
+        //takes given data and inserts it as a new row in the employee table
         const query =
           'INSERT INTO employee SET ?'
         connection.query(query, {
           first_name: answers.addName.split(" ")[0],
-          last_name: answers.addName.split(' ')[1],
+          last_name: answers.addName.split(" ")[1],
           role_id: roleId
         });
+        //returns user to the initial menu
         runAction()
       });
   });
@@ -183,6 +190,7 @@ const addDepartment = () => {
     });
 };
 
+//allows user to change an employee's role from a list of currently available roles
 const updateEmployeeRole = () => {
   const roleQuery =
     'SELECT * from role_info';
@@ -222,6 +230,7 @@ const updateEmployeeRole = () => {
       ])
       .then(function (answers) {
         let employeeId;
+        //finds the row of the table that matches the selected name and grabs its employee_id
         for (i = 0; i < res.length; i++) {
           if (answers.selectEmployee === res[i].first_name + " " + res[i].last_name) {
             employeeId = res[i].employee_id;
@@ -229,11 +238,14 @@ const updateEmployeeRole = () => {
         }
 
         let roleId;
+        //finds the row of the table  that matches the selected role title and grabs its role id
         for (i = 0; i < res.length; i++) {
           if (answers.updateRole === res[i].title) {
             roleId = res[i].role_id;
           }
         }
+
+        //uses the values grabbed above to update the role_id of the selected employee
         const query =
           `UPDATE employee SET role_id = ${roleId} WHERE employee.employee_id = ${employeeId}`
 
@@ -243,8 +255,9 @@ const updateEmployeeRole = () => {
         runAction();
       })
   });
-}; //update query
+}; 
 
+//gets all data from employee table, as well as date from the role_info table which is relevant to employee and presents it as a new table.
 const viewEmployees = () => {
   const query =
     'SELECT * from employee LEFT JOIN role_info ON employee.role_id = role_info.role_id'
@@ -253,7 +266,7 @@ const viewEmployees = () => {
     console.table(res);
     runAction();
   })
-}; //join query with department and role tables
+}; 
 
 const viewRoles = () => {
   const query =
@@ -263,7 +276,7 @@ const viewRoles = () => {
     console.table(res);
     runAction();
   });
-}; //join with department
+}; 
 
 const viewDepartments = () => {
   const query =
