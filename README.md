@@ -12,7 +12,7 @@ A Node.js content management system that uses mySQL to add and update employees,
 ## Demo
 https://www.youtube.com/watch?v=Gc97MRRm-3A
 
-![employee tracker screenshot](https://github.com/CorrinneW/homework-12/blob/main/assets/Capture.PNG)
+![employee tracker screenshot](https://github.com/CorrinneW/employee-tracker-cms/blob/main/assets/Capture.PNG)
 
 ## Credits
 ### Music:
