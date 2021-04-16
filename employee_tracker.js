@@ -1,5 +1,6 @@
 const mysql = require('mysql');
 const inquirer = require('inquirer');
+const cTable = require('console.table');
 
 // create the connection information for the sql database
 const connection = mysql.createConnection({
@@ -178,8 +179,46 @@ const addDepartment = () => {
 };
 
 const updateEmployeeRole = () => {
-  runAction();
-} //update query
+  // const rolesQuery =
+  //   'SELECT * from role_info';
+
+  // connection.query(rolesQuery, (err, res) => {
+  //   if (err) throw err;
+  //   inquirer
+  //     .prompt([
+  //       {
+  //         name: 'selectEmployee',
+  //         type: 'list',
+  //         message: 'Select employee to update:',
+  //         choices: function () {
+  //           return res.map(employee => employee.first_name + employee.last_name);
+  //         }
+  //       },
+  //       {
+  //         name: 'updateRole',
+  //         type: 'list',
+  //         message: 'Select new employee role:',
+  //         choices: function () {
+  //           return res.map(role => role.title);
+  //         }
+  //       }
+  //     ])
+  //     .then(function (answers) {
+  //       let roleId;
+  //       for (i = 0; i < res.length; i++) {
+  //         if (answers.updateRole === res[i].title) {
+  //           roleId = res[i].id
+  //         }
+  //       }
+  //       const query =
+  //         "UPDATE employee SET role_id = roleId WHERE employee.id = answers.id"
+  //       connection.query(query, {
+  //         role_id: roleId
+  //       });
+  //       runAction()
+  //     });
+  // });
+}; //update query
 
 const viewEmployees = () => {
   const query =
@@ -192,9 +231,21 @@ const viewEmployees = () => {
 }; //join query with department and role tables
 
 const viewRoles = () => {
-  runAction();
+  const query =
+    'SELECT * from role_info LEFT JOIN department ON role_info.department_id = department.id'
+  connection.query(query, (err, res) => {
+    if (err) throw err;
+    console.table(res);
+    runAction();
+  });
 }; //join with department
 
 const viewDepartments = () => {
-  runAction();
+  const query =
+    'SELECT * from department'
+  connection.query(query, (err, res) => {
+    if (err) throw err;
+    console.table(res);
+    runAction();
+  });
 };
