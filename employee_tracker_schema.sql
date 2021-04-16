@@ -4,11 +4,15 @@ CREATE DATABASE employee_tracker_schema;
 
 USE employee_tracker_schema;
 
+DROP TABLE IF EXISTS department;
+
 CREATE TABLE department (
   department_id INT NOT NULL AUTO_INCREMENT,
   name VARCHAR(30) NULL,
   PRIMARY KEY (department_id)
 );
+
+DROP TABLE IF EXISTS role_info;
 
 CREATE TABLE role_info (
   role_id INT NOT NULL AUTO_INCREMENT,
@@ -17,6 +21,8 @@ CREATE TABLE role_info (
   department_id INT,
   PRIMARY KEY (role_id)
 );
+
+DROP TABLE IF EXISTS employee;
 
 CREATE TABLE employee (
   employee_id INT NOT NULL AUTO_INCREMENT,

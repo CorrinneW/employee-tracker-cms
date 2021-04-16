@@ -1,3 +1,31 @@
+DROP DATABASE IF EXISTS employee_tracker_schema;
+
+CREATE DATABASE employee_tracker_schema;
+
+USE employee_tracker_schema;
+
+CREATE TABLE department (
+  department_id INT NOT NULL AUTO_INCREMENT,
+  name VARCHAR(30) NULL,
+  PRIMARY KEY (department_id)
+);
+
+CREATE TABLE role_info (
+  role_id INT NOT NULL AUTO_INCREMENT,
+  title VARCHAR(30) NULL,
+  salary DECIMAL NULL,
+  department_id INT,
+  PRIMARY KEY (role_id)
+);
+
+CREATE TABLE employee (
+  employee_id INT NOT NULL AUTO_INCREMENT,
+  first_name VARCHAR(30) NOT NULL,
+  last_name VARCHAR(30) NOT NULL,
+  role_id INT,
+  PRIMARY KEY (employee_id)
+);
+
 USE employee_tracker_schema;
 
 INSERT INTO department (name)
@@ -25,5 +53,3 @@ VALUES ("Denzel", "Washington"),
 ("Mahershala", "Ali"),
 ("Melissa", "McCarthy"),
 ("Viola", "Davis");
-
-module.exports

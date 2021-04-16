@@ -23,6 +23,7 @@ connection.connect((err) => {
 });
 
 const runAction = () => {
+  console.log('WELCOME TO THE EMPLOYEE MANAGEMENT SYSTEM. PLEASE SELECT ONE OF THE OPTIONS BELOW:');
   inquirer
     .prompt({
       name: 'action',
@@ -39,7 +40,8 @@ const runAction = () => {
         'View all roles',
         'View all departments',
         new inquirer.Separator(),
-        'Exit'
+        'Exit',
+        new inquirer.Separator()
       ]
     })
     .then((answer) => {
