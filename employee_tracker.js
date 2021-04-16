@@ -219,6 +219,13 @@ const updateEmployeeRole = () => {
         }
       ])
       .then(function (answers) {
+        let employeeId;
+        for (i = 0; i < res.length; i++) {
+          if (answers.selectEmployee === res[i].first_name + " " + res[i].last_name) {
+            employeeId = res[i].employee_id;
+          }
+        }
+
         let roleId;
         for (i = 0; i < res.length; i++) {
           if (answers.updateRole === res[i].title) {
@@ -226,7 +233,8 @@ const updateEmployeeRole = () => {
           }
         }
         const query =
-          `UPDATE employee SET role_id = roleId WHERE employee.employee_id = ${res.employee_id}`
+          `UPDATE employee SET role_id = ${roleId} WHERE employee.employee_id = ${employeeId}`
+
         connection.query(query, {
           role_id: roleId
         })
