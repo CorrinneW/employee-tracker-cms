@@ -201,7 +201,6 @@ const updateEmployeeRole = () => {
   connection.query(roleQuery, (err, res) => {
     if (err) throw err;
     getRoles = res.map(roles => roles.title);
-    console.log(getRoles)
   });
 
   //returns a table with combined data from employee and role_info tables
