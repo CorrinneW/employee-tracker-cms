@@ -85,12 +85,12 @@ const addEmployee = () => {
         {
           name: 'addName',
           type: 'input',
-          message: "What is employee's full name?"
+          message: "Please enter employee's full name:"
         },
         {
           name: 'addRole',
           type: 'list',
-          message: 'Select employee role?',
+          message: 'Select employee role:',
           choices: function () {
             return res.map(role => role.title);
           }
@@ -98,12 +98,12 @@ const addEmployee = () => {
       ])
       .then(function (answers) {
         let roleId;
-        for (i=0; i<res.length; i++) {
-          if(answers.addRole === res[i].title) {
+        for (i = 0; i < res.length; i++) {
+          if (answers.addRole === res[i].title) {
             roleId = res[i].id
           }
         }
-        const query = 
+        const query =
           'INSERT INTO employee SET ?'
         connection.query(query, {
           first_name: answers.addName.split(" ")[0],
@@ -113,14 +113,68 @@ const addEmployee = () => {
         runAction()
       });
   });
-}; //insert into
+};
 
 const addRole = () => {
-  runAction();
+  const departmentQuery =
+    'SELECT * from department';
+
+  connection.query(departmentQuery, (err, res) => {
+    if (err) throw err;
+    inquirer
+      .prompt([
+        {
+          name: 'addTitle',
+          type: 'input',
+          message: "Please enter role title:"
+        },
+        {
+          name: 'addDepartment',
+          type: 'input',
+          message: "Please enter department of role:"
+        },
+        {
+          name: 'addSalary',
+          type: 'number',
+          message: 'Please enter salary (numbers and decimal points only, no commas or symbols):',
+        }
+      ])
+      .then(function (answers) {
+        let departmentId;
+        for (i = 0; i < res.length; i++) {
+          if (answers.addDepartment === res[i].title) {
+            departmentId = res[i].id
+          }
+        }
+        const query =
+          'INSERT INTO department SET ?'
+        connection.query(query, {
+          title: answers.addTitle,
+          department_id: departmentId,
+          salary: answers.addSalary
+        });
+        runAction()
+      });
+  });
 };
 
 const addDepartment = () => {
-  runAction();
+  inquirer
+    .prompt([
+      {
+        name: 'addName',
+        type: 'input',
+        message: "Please enter new department name:"
+      }
+    ])
+    .then(function (answers) {
+      const query =
+        'INSERT INTO department SET ?'
+      connection.query(query, {
+        name: answers.addName
+      });
+      runAction()
+    });
 };
 
 const updateEmployeeRole = () => {
@@ -129,7 +183,7 @@ const updateEmployeeRole = () => {
 
 const viewEmployees = () => {
   const query =
-  'SELECT * from employee INNER JOIN role_info ON employee.role_id = role_info.id'
+    'SELECT * from employee LEFT JOIN role_info ON employee.role_id = role_info.id'
   connection.query(query, (err, res) => {
     if (err) throw err;
     console.table(res);

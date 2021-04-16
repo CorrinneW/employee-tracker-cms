@@ -15,7 +15,7 @@ CREATE TABLE role_info (
   title VARCHAR(30) NULL,
   salary DECIMAL NULL,
   department_id INT,
-  PRIMARY KEY (role_id),
+  PRIMARY KEY (role_id)
 );
 
 CREATE TABLE employee (
@@ -23,7 +23,7 @@ CREATE TABLE employee (
   first_name VARCHAR(30) NOT NULL,
   last_name VARCHAR(30) NOT NULL,
   role_id INT,
-  PRIMARY KEY (employee_id),
+  PRIMARY KEY (employee_id)
 );
 
 USE employee_tracker_schema;
